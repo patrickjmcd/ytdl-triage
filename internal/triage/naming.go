@@ -8,6 +8,13 @@ import (
 	"strings"
 )
 
+// DUPLICATION RISK: every function in this file is a hand-ported copy of
+// logic in watcher.py (k8s-argo's apps/media/youtubedl/watcher.py), not a
+// shared dependency — there's no code link between the two repos. If the
+// naming/collision rules change there, update Sanitize/BuildCanonicalTitle/
+// ResolveCollision here (and classifyCategory in category.go) to match, or
+// accepted files will end up named differently than ones watcher.py
+// auto-organized.
 var (
 	illegalCharsRe = regexp.MustCompile(`[<>:"/\\|?*\x00-\x1F]`)
 	whitespaceRe   = regexp.MustCompile(`\s+`)
