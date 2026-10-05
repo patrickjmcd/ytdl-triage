@@ -1,0 +1,5 @@
+/ytdl-triage
+/ytdl-triage-server
+internal/web/dist/*
+!internal/web/dist/index.html
+.DS_Store
