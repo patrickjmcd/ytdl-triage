@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 go build \
     -ldflags="-w -s -X main.version=${VERSION}" \
     -o /ytdl-triage ./cmd/server
 
-FROM alpine:3.19
+FROM alpine:3.24
 
 RUN apk --no-cache add ca-certificates tzdata
 
