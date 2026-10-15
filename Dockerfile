@@ -8,7 +8,7 @@ RUN npm ci
 COPY frontend ./
 RUN npm run build
 
-FROM golang:1.26-alpine AS builder
+FROM golang:1.27-alpine AS builder
 
 ARG VERSION=dev
 
@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 go build \
     -ldflags="-w -s -X main.version=${VERSION}" \
     -o /ytdl-triage ./cmd/server
 
-FROM alpine:3.19
+FROM alpine:3.24
 
 RUN apk --no-cache add ca-certificates tzdata
 
