@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+jobs:
+  # PRs: build the image (frontend + Go) without pushing.
+  check:
+    if: github.event_name == 'pull_request'
+    uses: patrickjmcd/workflows/.github/workflows/docker-image.yml@v1
+    with:
+      push: false
+
+  release:
+    if: github.event_name == 'push'
+    uses: patrickjmcd/workflows/.github/workflows/release-please.yml@v1
+    with:
+      release-type: go
+
+  # main and short-SHA tags on every push; 1.2.3 / 1.2 / latest on a release.
+  image:
+    if: github.event_name == 'push'
+    needs: release
+    uses: patrickjmcd/workflows/.github/workflows/docker-image.yml@v1
+    with:
+      version: ${{ needs.release.outputs.release_created == 'true' && needs.release.outputs.tag_name || '' }}
